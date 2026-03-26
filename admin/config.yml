@@ -12,6 +12,7 @@ collections:
       - name: "general"
         label: "Data, miejsce, teksty"
         file: "content/config.json"
+        format: "json"
         fields:
           - {label: "Tytuł", name: "tytul", widget: "string"}
           - {label: "Data wydarzenia", name: "data", widget: "string"}
