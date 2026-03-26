@@ -23,26 +23,17 @@
         }
     </script>
     <style>
-        /* Animacje przewijania */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        
-        /* Tło siatki */
         .bg-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(0, 230, 118, 0.05) 1px, transparent 1px),
                               linear-gradient(to bottom, rgba(0, 230, 118, 0.05) 1px, transparent 1px);
         }
-        
-        /* Ukrycie systemowego paska przewijania dla karuzeli */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Akordeon FAQ */
         .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         .faq-content.open { max-height: 800px; }
-        
-        /* Kropki osi czasu - Zielone (Domyślne / Dla Młodych) */
         .timeline-dot::before {
             content: '';
             position: absolute;
@@ -55,7 +46,6 @@
             border: 4px solid #fff;
             box-shadow: 0 0 0 2px #e2e8f0;
         }
-        /* Kropki osi czasu - Niebieskie (Dla Biznesu) */
         .timeline-dot-blue::before {
             background-color: #2563eb; 
         }
@@ -68,14 +58,12 @@
             <a href="#" class="block h-12 md:h-20 flex-shrink-0">
                 <img src="bootcamp-lublin-logo.svg" alt="Bootcamp Modern Leadership Logo" class="h-full w-auto" onerror="this.outerHTML='<div class=\'font-black text-2xl tracking-tighter text-brand-dark\'>BOOTCAMP<span class=\'text-brand-green\'>.</span></div>'">
             </a>
-            
             <div class="hidden md:flex space-x-6 lg:space-x-8 font-semibold text-sm text-slate-600 items-center">
                 <a href="#problem" class="hover:text-brand-green transition">O co chodzi?</a>
                 <a href="#prelegenci" class="hover:text-brand-green transition">Prelegenci</a>
                 <a href="#agenda" class="hover:text-brand-green transition">Program</a>
                 <a href="#manifest" class="hover:text-brand-green transition">Dla kogo?</a>
             </div>
-            
             <a href="#bilety" class="bg-brand-green text-brand-dark px-4 py-2 md:px-6 md:py-2.5 text-sm md:text-base whitespace-nowrap rounded-full font-bold hover:scale-105 transition-all duration-300 shadow-md">Wybierz Bilet</a>
         </div>
     </nav>
@@ -95,10 +83,14 @@
             
             <div class="flex flex-col sm:flex-row justify-center gap-4 text-lg font-bold mb-12">
                 <div class="bg-white/10 backdrop-blur-sm border border-white/10 px-8 py-4 rounded-2xl flex items-center justify-center gap-3">
-                    <span class="text-2xl">📅</span> <span>Wtorek-Środa, 12-13 maja 2026</span>
+                    <span class="text-2xl">📅</span>
+                    <!-- CMS: data -->
+                    <span id="cms-data">Wtorek-Środa, 12-13 maja 2026</span>
                 </div>
                 <div class="bg-white/10 backdrop-blur-sm border border-white/10 px-8 py-4 rounded-2xl flex items-center justify-center gap-3 text-center">
-                    <span class="text-2xl">📍</span> <span>Centrum Spotkania Kultur<br><span class="text-sm font-normal text-slate-300">pl. Teatralny 1, Lublin</span></span>
+                    <span class="text-2xl">📍</span>
+                    <!-- CMS: miejsce -->
+                    <span id="cms-miejsce">Centrum Spotkania Kultur<br><span class="text-sm font-normal text-slate-300">pl. Teatralny 1, Lublin</span></span>
                 </div>
             </div>
 
@@ -180,13 +172,8 @@
                     <img src="Bootcamp2024-03.jpeg" alt="Bootcamp Lublin 2024" class="w-full flex-shrink-0 object-cover">
                     <img src="Bootcamp2024-04.jpeg" alt="Bootcamp Lublin 2024" class="w-full flex-shrink-0 object-cover">
                 </div>
-                
-                <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-brand-green hover:text-brand-dark text-white p-4 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 font-black text-xl">
-                    &#8592;
-                </button>
-                <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-brand-green hover:text-brand-dark text-white p-4 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 font-black text-xl">
-                    &#8594;
-                </button>
+                <button id="prevBtn" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-brand-green hover:text-brand-dark text-white p-4 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 font-black text-xl">&#8592;</button>
+                <button id="nextBtn" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-brand-green hover:text-brand-dark text-white p-4 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 z-10 font-black text-xl">&#8594;</button>
             </div>
             <div id="sliderDots" class="flex justify-center gap-3 mt-8"></div>
         </div>
@@ -199,105 +186,45 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-6 reveal">
-            
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/witold-kowalski.jpg" alt="Witold Kowalski" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Witold+Kowalski&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Witold Kowalski</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">ex-CEO Nike Poland</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Były szef Nike Poland. Otworzy konferencję (w najkach, oczywiście!), poprowadzi scenę dla młodych i rozłoży na czynniki pierwsze temat budowania świadomości finansowej.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/witold-kowalski.jpg" alt="Witold Kowalski" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Witold+Kowalski&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Witold Kowalski</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">ex-CEO Nike Poland</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Były szef Nike Poland. Otworzy konferencję (w najkach, oczywiście!), poprowadzi scenę dla młodych i rozłoży na czynniki pierwsze temat budowania świadomości finansowej.</p></div>
             </div>
-
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/maja-gojtowska.jpg" alt="Maja Gojtowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Maja+Gojtowska&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Maja Gojtowska</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Ekspertka HR & EB</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Wierzy, że firmy powinny traktować pracowników tak dobrze, jak klientów. Pokaże nam, jak przestać demotywować i opowie o sile doświadczenia kandydata oraz offboardingu.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/maja-gojtowska.jpg" alt="Maja Gojtowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Maja+Gojtowska&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Maja Gojtowska</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Ekspertka HR & EB</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Wierzy, że firmy powinny traktować pracowników tak dobrze, jak klientów. Pokaże nam, jak przestać demotywować i opowie o sile doświadczenia kandydata oraz offboardingu.</p></div>
             </div>
-
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/pawel-jaczewski.png" alt="Paweł Jaczewski" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Paweł+Jaczewski&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Paweł Jaczewski</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Trener LinkedIn (Sharebee)</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Ekspert od ekonomii behawioralnej i słowa. Nauczy nas odpowiedzialnego budowania marki eksperta na LinkedIn oraz wdrażania programów Employee Advocacy w HR.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/pawel-jaczewski.png" alt="Paweł Jaczewski" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Paweł+Jaczewski&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Paweł Jaczewski</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Trener LinkedIn (Sharebee)</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Ekspert od ekonomii behawioralnej i słowa. Nauczy nas odpowiedzialnego budowania marki eksperta na LinkedIn oraz wdrażania programów Employee Advocacy w HR.</p></div>
             </div>
-
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/marta-stanczak.jpg" alt="Marta Stańczak" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Marta+Sta%C5%84czak&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Marta Stańczak</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">CEO SPIE Building Solutions</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Liderka, której znakiem rozpoznawczym jest dbałość o wellbeing. Odpowie, czy "happy people make happy business" to miękki frazes na banery, czy realna przewaga rynkowa.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/marta-stanczak.jpg" alt="Marta Stańczak" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Marta+Sta%C5%84czak&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Marta Stańczak</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">CEO SPIE Building Solutions</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Liderka, której znakiem rozpoznawczym jest dbałość o wellbeing. Odpowie, czy "happy people make happy business" to miękki frazes na banery, czy realna przewaga rynkowa.</p></div>
             </div>
-            
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/wojciech-suda.jpg" alt="Wojciech Suda" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Wojciech+Suda&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Wojciech Suda</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Konsultant Biznesowy</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Od 19 lat upraszcza działania firm z Fortune Global 500. W świecie przeładowanym procesami podpowie, jak eliminować marnotrawstwo i zarządzać projektami po ludzku.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/wojciech-suda.jpg" alt="Wojciech Suda" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Wojciech+Suda&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Wojciech Suda</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Konsultant Biznesowy</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Od 19 lat upraszcza działania firm z Fortune Global 500. W świecie przeładowanym procesami podpowie, jak eliminować marnotrawstwo i zarządzać projektami po ludzku.</p></div>
             </div>
-            
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/anna-rybak.jpg" alt="Anna Rybak" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Anna+Rybak&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Anna Rybak</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Trener Biznesu</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Specjalistka od tego, co "między wierszami". Zmierzy się z odwiecznym pytaniem: czemu z niektórymi ludźmi po prostu nie da się dogadać i jak problemy z komunikacją kosztują firmę.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/anna-rybak.jpg" alt="Anna Rybak" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Anna+Rybak&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Anna Rybak</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Trener Biznesu</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Specjalistka od tego, co "między wierszami". Zmierzy się z odwiecznym pytaniem: czemu z niektórymi ludźmi po prostu nie da się dogadać i jak problemy z komunikacją kosztują firmę.</p></div>
             </div>
-
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/beata-orlowska.jpg" alt="Beata Orłowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Beata+Orłowska&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Beata Orłowska</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">CEO Oerlemans Foods</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Licencjonowany doradca podatkowy i liderka biznesu. Przeprowadzi warsztaty nie tylko dla CFO: jak ugryźć podatki i optymalnie zbudować modele współpracy na styku etat/B2B.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/beata-orlowska.jpg" alt="Beata Orłowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Beata+Orłowska&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Beata Orłowska</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">CEO Oerlemans Foods</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Licencjonowany doradca podatkowy i liderka biznesu. Przeprowadzi warsztaty nie tylko dla CFO: jak ugryźć podatki i optymalnie zbudować modele współpracy na styku etat/B2B.</p></div>
             </div>
-            
             <div class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col">
-                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0">
-                    <img src="prelegenci/joanna-karmowska.jpg" alt="Joanna Karmowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Joanna+Karmowska&background=0f172a&color=2563eb&size=400'">
-                </div>
-                <div class="p-6 flex flex-col grow">
-                    <h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Joanna Karmowska</h3>
-                    <p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Doradca Procesowy</p>
-                    <p class="text-sm text-slate-600 leading-relaxed mt-auto">Od 18 lat łączy twarde wdrożenia systemów (ISO, ERP) z miękkim podejściem do człowieka. Wyjaśni zjawiska turkusowe i podpowie, czemu każdą optymalizację trzeba zaczynać od ludzi.</p>
-                </div>
+                <div class="h-64 w-full bg-slate-200 overflow-hidden shrink-0"><img src="prelegenci/joanna-karmowska.jpg" alt="Joanna Karmowska" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://ui-avatars.com/api/?name=Joanna+Karmowska&background=0f172a&color=2563eb&size=400'"></div>
+                <div class="p-6 flex flex-col grow"><h3 class="font-black text-2xl text-brand-dark leading-tight mb-1">Joanna Karmowska</h3><p class="text-blue-600 font-bold text-sm mb-4 uppercase tracking-wide">Doradca Procesowy</p><p class="text-sm text-slate-600 leading-relaxed mt-auto">Od 18 lat łączy twarde wdrożenia systemów (ISO, ERP) z miękkim podejściem do człowieka. Wyjaśni zjawiska turkusowe i podpowie, czemu każdą optymalizację trzeba zaczynać od ludzi.</p></div>
             </div>
-
             <a href="#agenda" class="bg-slate-50 rounded-[2rem] border border-slate-200 overflow-hidden shadow-lg hover:shadow-xl hover:border-brand-green transition-all duration-300 group flex flex-col justify-center items-center text-center p-8 cursor-pointer">
                 <div class="w-24 h-24 bg-brand-green rounded-full flex items-center justify-center text-brand-dark mb-6 group-hover:scale-110 group-hover:translate-y-2 transition-all duration-300 shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
                 </div>
                 <h3 class="font-black text-2xl text-brand-dark mb-3">To nie wszyscy!</h3>
                 <p class="text-base text-slate-600">Kliknij tutaj, aby zjechać do programu i poznać pełną listę ekspertów z drugiego dnia.</p>
             </a>
-
         </div>
     </section>
 
@@ -307,76 +234,49 @@
                 <h2 class="text-4xl md:text-5xl font-black text-brand-dark mb-4">Co mówią po pierwszej edycji?</h2>
                 <p class="text-xl text-slate-500 font-medium">Nasze wydarzenia to nie obietnice. To fakty. Zobacz dlaczego warto.</p>
             </div>
-            <div class="flex items-center gap-2 text-brand-green font-bold text-sm uppercase tracking-widest animate-pulse">
-                <span>Przesuń, by przeczytać</span>
-                <span class="text-xl">👉</span>
-            </div>
+            <div class="flex items-center gap-2 text-brand-green font-bold text-sm uppercase tracking-widest animate-pulse"><span>Przesuń, by przeczytać</span><span class="text-xl">👉</span></div>
         </div>
-
         <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 px-6 pb-12 hide-scrollbar max-w-7xl mx-auto reveal">
-            
             <div class="snap-start shrink-0 w-[300px] md:w-[400px] bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-green transition-all duration-300 flex flex-col justify-between">
                 <div class="text-brand-green text-6xl font-serif leading-none mb-4">"</div>
                 <p class="text-slate-600 mb-8 italic text-lg grow">Zazwyczaj eventy HR oferują 2 z 3 elementów: merytorykę, networking lub swobodną atmosferę. Bootcamp ma wszystkie trzy! To event w trampkach, z merytoryką na poziomie TOP. Nie wierz mi na słowo – pomyśl krytycznie i sprawdź to sam!</p>
                 <div class="flex items-center gap-4 mt-auto">
-                    <div class="w-12 h-12 bg-slate-200 rounded-full overflow-hidden shrink-0 border-2 border-brand-green">
-                        <img src="prelegenci/pawel-jaczewski.png" alt="Paweł Jaczewski" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Paweł+Jaczewski&background=0f172a&color=00e676'">
-                    </div>
-                    <div>
-                        <div class="font-black text-brand-dark text-sm">Paweł Jaczewski</div>
-                        <div class="text-xs text-slate-500 font-bold uppercase tracking-wide">Trener LinkedIn</div>
-                    </div>
+                    <div class="w-12 h-12 bg-slate-200 rounded-full overflow-hidden shrink-0 border-2 border-brand-green"><img src="prelegenci/pawel-jaczewski.png" alt="Paweł Jaczewski" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Paweł+Jaczewski&background=0f172a&color=00e676'"></div>
+                    <div><div class="font-black text-brand-dark text-sm">Paweł Jaczewski</div><div class="text-xs text-slate-500 font-bold uppercase tracking-wide">Trener LinkedIn</div></div>
                 </div>
             </div>
-            
             <div class="snap-start shrink-0 w-[300px] md:w-[400px] bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-lg hover:border-brand-green transition-all duration-300 flex flex-col justify-between">
                 <div class="text-brand-green text-6xl font-serif leading-none mb-4">"</div>
-                <p class="text-slate-600 mb-8 italic text-lg grow">Atmosfera nie była tu „konferencyjna” w chłodnym, formalnym sensie, tylko prawdziwie relacyjna. To miejsce spotkania ludzi mądrych, merytorycznych i otwartych. W dzisiejszym świecie to jest wartość naprawdę premium.</p>
+                <p class="text-slate-600 mb-8 italic text-lg grow">Atmosfera nie była tu „konferencyjna" w chłodnym, formalnym sensie, tylko prawdziwie relacyjna. To miejsce spotkania ludzi mądrych, merytorycznych i otwartych. W dzisiejszym świecie to jest wartość naprawdę premium.</p>
                 <div class="flex items-center gap-4 mt-auto">
-                    <div class="w-12 h-12 bg-slate-200 rounded-full overflow-hidden shrink-0 border-2 border-brand-green">
-                        <img src="https://ui-avatars.com/api/?name=Marta+Szymańska&background=0f172a&color=00e676" alt="Marta Szymańska-Jarosz" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <div class="font-black text-brand-dark text-sm">Marta Szymańska-Jarosz</div>
-                        <div class="text-xs text-slate-500 font-bold uppercase tracking-wide">KUL Jana Pawła II</div>
-                    </div>
+                    <div class="w-12 h-12 bg-slate-200 rounded-full overflow-hidden shrink-0 border-2 border-brand-green"><img src="https://ui-avatars.com/api/?name=Marta+Szymańska&background=0f172a&color=00e676" alt="Marta Szymańska-Jarosz" class="w-full h-full object-cover"></div>
+                    <div><div class="font-black text-brand-dark text-sm">Marta Szymańska-Jarosz</div><div class="text-xs text-slate-500 font-bold uppercase tracking-wide">KUL Jana Pawła II</div></div>
                 </div>
             </div>
-
             <div class="snap-start shrink-0 w-[300px] md:w-[400px] bg-brand-dark p-8 rounded-[2rem] border border-slate-800 shadow-sm hover:shadow-lg hover:border-brand-green transition-all duration-300 flex flex-col justify-between">
                 <div class="text-brand-green text-6xl font-serif leading-none mb-4">"</div>
                 <p class="text-slate-300 mb-8 italic text-lg grow">Od początku wiedziałam, że za tym pomysłem stoi absolutna jakość: merytoryczna, organizacyjna i ludzka. Organizatorzy mają wyjątkową zdolność przyciągania ludzi z dobrą energią i autentyczną otwartością.</p>
                 <div class="flex items-center gap-4 mt-auto">
-                    <div class="w-12 h-12 bg-brand-green rounded-full overflow-hidden shrink-0 border-2 border-white">
-                        <img src="https://ui-avatars.com/api/?name=Przedstawicielka+Partnera&background=0f172a&color=00e676" alt="Partner Wydarzenia" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <div class="font-black text-white text-sm">Przedstawicielka Partnera</div>
-                        <div class="text-xs text-brand-green font-bold uppercase tracking-wide">Bootcamp 2024</div>
-                    </div>
+                    <div class="w-12 h-12 bg-brand-green rounded-full overflow-hidden shrink-0 border-2 border-white"><img src="https://ui-avatars.com/api/?name=Przedstawicielka+Partnera&background=0f172a&color=00e676" alt="Partner Wydarzenia" class="w-full h-full object-cover"></div>
+                    <div><div class="font-black text-white text-sm">Przedstawicielka Partnera</div><div class="text-xs text-brand-green font-bold uppercase tracking-wide">Bootcamp 2024</div></div>
                 </div>
             </div>
-
         </div>
     </section>
 
     <section id="agenda" class="py-24 bg-slate-50">
         <div class="max-w-7xl mx-auto px-6">
-            
             <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl md:text-5xl font-black text-brand-dark mb-4">Szczegółowy Program</h2>
                 <p class="text-xl text-slate-500 font-medium">Wybierz swoją ścieżkę wydarzenia</p>
             </div>
-
             <div class="reveal mb-24">
                 <div class="text-center mb-8">
                     <div class="inline-block bg-blue-600 text-white font-black px-6 py-2 rounded-t-2xl text-xl tracking-tight uppercase">Ścieżka Business & HR</div>
                     <p class="font-bold text-slate-500 uppercase tracking-widest text-sm mt-3">Dla Liderów, HR i Przedsiębiorców (12-13 Maja 2026)</p>
                 </div>
-
                 <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-200 overflow-hidden relative text-slate-800">
                     <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                    
                     <div class="grid lg:grid-cols-2">
                         <div class="p-8 md:p-12 border-b lg:border-b-0 lg:border-r border-slate-100">
                             <div class="pb-6 mb-8 border-b border-slate-100">
@@ -384,111 +284,37 @@
                                 <h3 class="text-3xl font-black text-brand-dark mb-2">Scena LIFE PROVEN</h3>
                                 <p class="text-slate-600 text-sm">Dla tych, którzy już sporo sprawdzili. Konferencja bez patosu i bez udawania, że wszystko działa idealnie.</p>
                             </div>
-
                             <div class="pl-8 border-l-2 border-slate-200 ml-4 space-y-8 relative">
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">08:00</span>
-                                    <h4 class="font-bold text-slate-800">Meldujemy się!</h4>
-                                    <p class="text-sm text-slate-500">Pijemy kawę i networkujemy przed startem.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">09:00</span>
-                                    <h4 class="font-bold text-slate-800">Otwarcie i kontekst</h4>
-                                    <p class="text-sm text-slate-500">Bootcamp team zagaja i przedstawia partnerów.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">09:15</span>
-                                    <h4 class="font-bold text-slate-800">Odkoduj pułapki myślenia na LinkedIn – Paweł Jaczewski, Sharebee</h4>
-                                    <p class="text-sm text-slate-500">7,5 triku, jak ekonomia behawioralna ułatwi Ci życie (nie tylko na LinkedIn).</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">10:15</span>
-                                    <h4 class="font-bold text-slate-800">Czy znajomość podstaw finansów może podwoić zysk?</h4>
-                                    <p class="text-sm text-slate-500">Wystąpienie Witolda Kowalskiego – eks-CEO Nike Poland.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">11:15</span>
-                                    <h4 class="font-bold text-slate-800">Happy people make happy business</h4>
-                                    <p class="text-sm text-slate-500">Pulp fiction na banery czy realny kierunek? Występuje Marta Stańczak.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">12:45</span>
-                                    <h4 class="font-bold text-slate-800">Trendy & Obciachy</h4>
-                                    <p class="text-sm text-slate-500">O współczesnym podejściu do biznesu – Monika Butryn.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">13:15</span>
-                                    <h4 class="font-bold text-slate-800">Nie pytaj, jak motywować. Przestań demotywować.</h4>
-                                    <p class="text-sm text-slate-500">Maja Gojtowska o doświadczeniu kandydata i pracownika.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">15:00</span>
-                                    <h4 class="font-bold text-slate-800">Finałowa debata międzypokoleniowa</h4>
-                                    <p class="text-sm text-slate-500">Z udziałem uczestników ze sceny Power of Young.</p>
-                                </div>
-                                <div class="relative timeline-dot timeline-dot-blue">
-                                    <span class="text-blue-600 font-black block mb-1">16:00</span>
-                                    <h4 class="font-bold text-slate-800">Twórczy relaks</h4>
-                                    <p class="text-sm text-slate-500">Zapraszamy do strefy pasji na zakończenie dnia.</p>
-                                </div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">08:00</span><h4 class="font-bold text-slate-800">Meldujemy się!</h4><p class="text-sm text-slate-500">Pijemy kawę i networkujemy przed startem.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">09:00</span><h4 class="font-bold text-slate-800">Otwarcie i kontekst</h4><p class="text-sm text-slate-500">Bootcamp team zagaja i przedstawia partnerów.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">09:15</span><h4 class="font-bold text-slate-800">Odkoduj pułapki myślenia na LinkedIn – Paweł Jaczewski, Sharebee</h4><p class="text-sm text-slate-500">7,5 triku, jak ekonomia behawioralna ułatwi Ci życie (nie tylko na LinkedIn).</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">10:15</span><h4 class="font-bold text-slate-800">Czy znajomość podstaw finansów może podwoić zysk?</h4><p class="text-sm text-slate-500">Wystąpienie Witolda Kowalskiego – eks-CEO Nike Poland.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">11:15</span><h4 class="font-bold text-slate-800">Happy people make happy business</h4><p class="text-sm text-slate-500">Pulp fiction na banery czy realny kierunek? Występuje Marta Stańczak.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">12:45</span><h4 class="font-bold text-slate-800">Trendy & Obciachy</h4><p class="text-sm text-slate-500">O współczesnym podejściu do biznesu – Monika Butryn.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">13:15</span><h4 class="font-bold text-slate-800">Nie pytaj, jak motywować. Przestań demotywować.</h4><p class="text-sm text-slate-500">Maja Gojtowska o doświadczeniu kandydata i pracownika.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">15:00</span><h4 class="font-bold text-slate-800">Finałowa debata międzypokoleniowa</h4><p class="text-sm text-slate-500">Z udziałem uczestników ze sceny Power of Young.</p></div>
+                                <div class="relative timeline-dot timeline-dot-blue"><span class="text-blue-600 font-black block mb-1">16:00</span><h4 class="font-bold text-slate-800">Twórczy relaks</h4><p class="text-sm text-slate-500">Zapraszamy do strefy pasji na zakończenie dnia.</p></div>
                             </div>
                         </div>
-
                         <div class="p-8 md:p-12 bg-slate-50/50">
                             <div class="pb-6 mb-8 border-b border-slate-200">
                                 <div class="text-blue-600 font-black text-sm mb-1 uppercase tracking-widest">Dzień 2 (Środa, 13.05) | Praca w grupach</div>
                                 <h3 class="text-3xl font-black text-brand-dark mb-2">Warsztaty – ręce w smarze</h3>
-                                <p class="text-slate-600 text-sm">Drugiego dnia schodzimy ze sceny. Małe grupy, konkretne tematy, praca nad rozwiązaniami. Nie chodzi nam o inspirację. Chodzi o narzędzia, które można zabrać do firmy i naprawdę wykorzystać. Wybierasz <strong>3 z poniższych bloków</strong>.</p>
+                                <p class="text-slate-600 text-sm">Drugiego dnia schodzimy ze sceny. Małe grupy, konkretne tematy, praca nad rozwiązaniami. Wybierasz <strong>3 z poniższych bloków</strong>.</p>
                             </div>
-
                             <div class="flex flex-col gap-y-4 text-sm text-slate-700 font-medium">
-                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>AI w pracy lidera i HR – co wdrażać, a co sobie darować?</strong> – Kamila Kierzak-Mechło</div>
-                                </div>
-                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>LinkedIn, Employee Advocacy i Employer Branding dla HR</strong> – Paweł Jaczewski, Sharebee</div>
-                                </div>
-								<div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Mapowanie onboardingu – proste narzędzie, które pomoże Ci działać skuteczniej wdrażać pracowników.</strong> – Maja Gojtowska</div>
-                                </div>
-								<div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Jak się zabrać za optymalizację procesów i czemu zacząć od ludzi?</strong> – Joanna Karmowska</div>
-                                </div>
-								<div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Jak mierzyć kompetencje miękkie. Praca na liczbach.</strong> – Anna Rybak, Effectivness</div>
-                                </div>
-                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Jak znajomość podstaw finansów może podwoić zysk Twojej firmy?</strong> – Witold Kowalski – eks-CEO Nike Poland</div>
-                                </div>
-                               
-                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Najczęstsze błędy podczas wdrażania ERP i jak ich uniknąć?</strong> – Ewa Chmielewska, Holandia</div>
-                                </div>
-                                
-                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Jak ugryźć podatki - przewodnik po najkorzystniejszych modelach współpracy z liderami.</strong> – Beata Orłowska, CEO Oerlemans Foods w Polsce</div>
-                                </div>
-								
-								<div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Lean HR: Jak uprościć procesy, by dawały lepszy employee experience.</strong> – Wojciech Suda, CEO / Founder</div>
-                                </div>
-								<div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition">
-                                    <span class="text-blue-600 text-xl">✔️</span>
-                                    <div><strong>Jak poprawić jakość każdego ogłoszenie i przyciągnąć najlepszych kandydatów?</strong> – Maja Gojtowska</div>
-                                </div>
-                                
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>AI w pracy lidera i HR – co wdrażać, a co sobie darować?</strong> – Kamila Kierzak-Mechło</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>LinkedIn, Employee Advocacy i Employer Branding dla HR</strong> – Paweł Jaczewski, Sharebee</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Mapowanie onboardingu</strong> – Maja Gojtowska</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Jak się zabrać za optymalizację procesów i czemu zacząć od ludzi?</strong> – Joanna Karmowska</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Jak mierzyć kompetencje miękkie. Praca na liczbach.</strong> – Anna Rybak, Effectivness</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Jak znajomość podstaw finansów może podwoić zysk Twojej firmy?</strong> – Witold Kowalski</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Najczęstsze błędy podczas wdrażania ERP i jak ich uniknąć?</strong> – Ewa Chmielewska, Holandia</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Jak ugryźć podatki</strong> – Beata Orłowska, CEO Oerlemans Foods w Polsce</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Lean HR: Jak uprościć procesy</strong> – Wojciech Suda, CEO / Founder</div></div>
+                                <div class="flex items-start gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-blue-500 transition"><span class="text-blue-600 text-xl">✔️</span><div><strong>Jak poprawić jakość każdego ogłoszenia i przyciągnąć najlepszych kandydatów?</strong> – Maja Gojtowska</div></div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -498,144 +324,56 @@
                     <div class="inline-block bg-brand-green text-brand-dark font-black px-6 py-2 rounded-t-2xl text-xl tracking-tight uppercase">Ścieżka Dla Młodych</div>
                     <p class="font-bold text-slate-500 uppercase tracking-widest text-sm mt-3">Dla Studentów i Uczniów (Tylko Wtorek, 12 Maja 2026)</p>
                 </div>
-
                 <div class="bg-white rounded-[3rem] shadow-2xl border border-slate-200 overflow-hidden relative text-slate-800 max-w-4xl mx-auto">
                     <div class="absolute top-0 left-0 w-full h-2 bg-brand-green"></div>
-
                     <div class="p-8 md:p-12">
                         <div class="pb-6 mb-8 border-b border-slate-100">
                             <div class="text-brand-green font-black text-sm mb-1 uppercase tracking-widest">Wtorek (12.05) | Parter</div>
                             <h3 class="text-3xl font-black mb-2 text-brand-dark">Scena POWER OF YOUNG</h3>
-                            <p class="text-slate-600 text-sm">Darmowa strefa dla studentów, uczniów i szukających miejsca pracy. Wydarzenie bez mentorstwa i bez ściemy. Konferencję otworzy w najkach ex-CEO Nike Poland, Witold Kowalski, a całość poprowadzi wspólnie z Adamem Kościańczukiem z TVP Lublin.</p>
+                            <p class="text-slate-600 text-sm">Darmowa strefa dla studentów, uczniów i szukających miejsca pracy. Wydarzenie bez mentorstwa i bez ściemy.</p>
                         </div>
-
                         <div class="pl-8 border-l-2 border-slate-200 ml-4 space-y-8 relative">
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">Od 09:00</span>
-                                <h4 class="font-bold text-slate-800">Czynne dla rannych ptaszków</h4>
-                                <p class="text-sm text-slate-500">Jak ktoś lubi wcześnie wstawać, to zgarnia najlepsze gadżety 😉</p>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">11:00</span>
-                                <h4 class="font-bold text-slate-800">START: Otwarcie i plan gry</h4>
-                                <p class="text-sm text-slate-500">Zaczynamy oficjalnie (bez fanatyzmu z tym wstawaniem!).</p>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">11:00 - 11:45</span>
-                                <h4 class="font-bold text-slate-800">Czy AI zabierze Wam pracę?</h4>
-                                <p class="text-sm text-slate-500">Mocne zderzenie z technologiczną rzeczywistością.</p>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">11:45 - 12:15</span>
-                                <h4 class="font-bold text-slate-800">Przerwa i/lub dyskusja</h4>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">12:15 - 13:00</span>
-                                <h4 class="font-bold text-slate-800">Jaka energia jest w cenie, czyli czego dzisiaj chcemy od kandydatów?</h4>
-                                <p class="text-sm text-slate-500">Anna Kołacz, Dyr. Biura Rozwoju, Projektów i Doradztwa HR GK PGE.</p>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">13:00 - 13:30</span>
-                                <h4 class="font-bold text-slate-800">Przerwa i/lub dyskusja</h4>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">13:30 - 14:15</span>
-                                <h4 class="font-bold text-slate-800">Czy znajomość podstaw finansów może podwoić Twoją wartość dla pracodawcy?</h4>
-                                <p class="text-sm text-slate-500">Eks-CEO Nike Poland.</p>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">14:15 - 14:45</span>
-                                <h4 class="font-bold text-slate-800">Przerwa i/lub dyskusja</h4>
-                            </div>
-                            <div class="relative timeline-dot">
-                                <span class="text-brand-green font-black block mb-1">15:00 - 16:00</span>
-                                <h4 class="font-bold text-slate-800">Finałowa debata z boomersami</h4>
-                                <p class="text-sm text-slate-500">Czas na zadawanie niewygodnych pytań.</p>
-                            </div>
-                            
-                            <div class="mt-10 bg-green-50 p-6 rounded-2xl border border-green-100">
-                                <h4 class="font-bold text-brand-dark mb-2">🤝 W tzw. międzyczasie</h4>
-                                <p class="text-sm text-slate-600">Spotkania z markami i ludźmi – targi pracy w formule rozmowy, spotkania i doświadczenia, a nie tylko wciskane do ręki ulotki.</p>
-                            </div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">Od 09:00</span><h4 class="font-bold text-slate-800">Czynne dla rannych ptaszków</h4><p class="text-sm text-slate-500">Jak ktoś lubi wcześnie wstawać, to zgarnia najlepsze gadżety 😉</p></div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">11:00</span><h4 class="font-bold text-slate-800">START: Otwarcie i plan gry</h4></div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">11:00 - 11:45</span><h4 class="font-bold text-slate-800">Czy AI zabierze Wam pracę?</h4></div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">12:15 - 13:00</span><h4 class="font-bold text-slate-800">Jaka energia jest w cenie?</h4><p class="text-sm text-slate-500">Anna Kołacz, Dyr. Biura Rozwoju, Projektów i Doradztwa HR GK PGE.</p></div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">13:30 - 14:15</span><h4 class="font-bold text-slate-800">Czy znajomość podstaw finansów może podwoić Twoją wartość?</h4><p class="text-sm text-slate-500">Eks-CEO Nike Poland.</p></div>
+                            <div class="relative timeline-dot"><span class="text-brand-green font-black block mb-1">15:00 - 16:00</span><h4 class="font-bold text-slate-800">Finałowa debata z boomersami</h4></div>
+                            <div class="mt-10 bg-green-50 p-6 rounded-2xl border border-green-100"><h4 class="font-bold text-brand-dark mb-2">🤝 W tzw. międzyczasie</h4><p class="text-sm text-slate-600">Spotkania z markami i ludźmi – targi pracy w formule rozmowy.</p></div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
     <section id="sponsorzy" class="py-24 bg-slate-50 border-t border-slate-200">
         <div class="max-w-6xl mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-black mb-16 text-center text-brand-dark reveal">Wspierają nas</h2>
-
             <div class="mb-16 reveal">
                 <p class="text-center text-xs font-bold text-brand-green uppercase tracking-widest mb-4">Partnerzy Strategiczni</p>
                 <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-48 md:h-56 group">
-                        <img src="sponsorzy/logo-strat-1.png" alt="Partner Strategiczny Polska Grupa Energetyczna"  class="max-h-24 md:max-h-32 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-black text-2xl text-center group-hover:text-brand-green transition\'>[Logo Strat 1]</span>'">
-                    </div>
-                    <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-48 md:h-56 group">
-                        <img src="sponsorzy/logo-strat-2.png" alt="Partner Strategiczny SPIE Polska" class="max-h-24 md:max-h-32 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-black text-2xl text-center group-hover:text-brand-green transition\'>[Logo Strat 2]</span>'">
-                    </div>
+                    <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-48 md:h-56 group"><img src="sponsorzy/logo-strat-1.png" alt="Polska Grupa Energetyczna" class="max-h-24 md:max-h-32 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-48 md:h-56 group"><img src="sponsorzy/logo-strat-2.png" alt="SPIE Polska" class="max-h-24 md:max-h-32 w-auto transition-transform duration-300 group-hover:scale-105"></div>
                 </div>
             </div>
-
             <div class="reveal">
                 <p class="text-center text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Partnerzy Wydarzenia</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
-					
-					 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-6.png" alt="Maspo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-					<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/cisowianka.png" alt="Cisowianka" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-					
-					<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-2.png" alt="ARCHE HOTEL" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Logo 2]</span>'">
-                    </div>
-					
-					 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/Asistwork.svg" alt="Asistwork" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-					
-					 <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-5.png" alt="Sharebee" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Logo 1]</span>'">
-                    </div>
-					
-					<div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/cewar.jpg" alt="Cewar" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-					
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-1.svg" alt="Dolineo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Logo 1]</span>'">
-                    </div>
-                    
-					  <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-4.svg" alt="noSilo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Logo 4]</span>'">
-                    </div>
-					
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-3.svg" alt="HR Code" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Logo 3]</span>'">
-                    </div>
-                  
-                    
-                   
-                   
-              
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/hcm.png" alt="Human Centered Management" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-11.svg" alt="Partner 11" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group">
-                        <img src="sponsorzy/logo-12.svg" alt="Partner 12" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105" onerror="this.outerHTML='<span class=\'text-slate-300 font-bold text-sm md:text-base text-center group-hover:text-brand-green transition\'>[Już wkrótce]</span>'">
-                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-6.png" alt="Maspo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/cisowianka.png" alt="Cisowianka" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-2.png" alt="ARCHE HOTEL" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/Asistwork.svg" alt="Asistwork" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-5.png" alt="Sharebee" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/cewar.jpg" alt="Cewar" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-1.svg" alt="Dolineo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-4.svg" alt="noSilo" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-3.svg" alt="HR Code" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/hcm.png" alt="Human Centered Management" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-11.svg" alt="Partner 11" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-center hover:shadow-lg transition duration-300 h-24 md:h-32 group"><img src="sponsorzy/logo-12.svg" alt="Partner 12" class="max-h-12 md:max-h-16 w-auto transition-transform duration-300 group-hover:scale-105"></div>
                 </div>
             </div>
-            
         </div>
     </section>
 
@@ -643,57 +381,28 @@
         <div class="max-w-6xl mx-auto px-6">
             <div class="text-center mb-16 reveal">
                 <h2 class="text-4xl md:text-5xl font-black text-brand-dark mb-4">Dla kogo jest ten Bootcamp?</h2>
-                <p class="text-xl text-slate-500 font-medium max-w-2xl mx-auto">Mówimy wprost. Szkoda Twojego czasu i naszego budżetu na puste obietnice. Zobacz, czy to miejsce dla Ciebie.</p>
+                <p class="text-xl text-slate-500 font-medium max-w-2xl mx-auto">Mówimy wprost. Szkoda Twojego czasu i naszego budżetu na puste obietnice.</p>
             </div>
-
             <div class="grid md:grid-cols-2 gap-8 reveal">
                 <div class="bg-white p-10 md:p-14 rounded-[3rem] shadow-xl border border-brand-green/30 relative overflow-hidden transition hover:shadow-2xl">
                     <div class="absolute top-0 left-0 w-full h-2 bg-brand-green"></div>
                     <h3 class="text-2xl md:text-3xl font-black mb-8 text-brand-dark">Bootcamp jest dla Ciebie, jeśli:</h3>
                     <ul class="space-y-6 text-slate-600 font-medium text-lg">
-                        <li class="flex items-start gap-4">
-                            <span class="text-brand-green text-2xl font-black">✔️</span>
-                            <span>Pracujesz w HR i chcesz rozumieć zmiany rynku pracy.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-brand-green text-2xl font-black">✔️</span>
-                            <span>Prowadzisz firmę i szukasz sprawdzonych rozwiązań.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-brand-green text-2xl font-black">✔️</span>
-                            <span>Zarządzasz zespołem (złożonym z różnych pokoleń).</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-brand-green text-2xl font-black">✔️</span>
-                            <span>Interesuje Cię przyszłość pracy i biznesu.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-brand-green text-2xl font-black">✔️</span>
-                            <span>Masz pytania, masz doświadczenie i chcesz o nich rozmawiać <strong>bez konferencyjnej ściemy</strong>.</span>
-                        </li>
+                        <li class="flex items-start gap-4"><span class="text-brand-green text-2xl font-black">✔️</span><span>Pracujesz w HR i chcesz rozumieć zmiany rynku pracy.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-brand-green text-2xl font-black">✔️</span><span>Prowadzisz firmę i szukasz sprawdzonych rozwiązań.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-brand-green text-2xl font-black">✔️</span><span>Zarządzasz zespołem (złożonym z różnych pokoleń).</span></li>
+                        <li class="flex items-start gap-4"><span class="text-brand-green text-2xl font-black">✔️</span><span>Interesuje Cię przyszłość pracy i biznesu.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-brand-green text-2xl font-black">✔️</span><span>Masz pytania, masz doświadczenie i chcesz o nich rozmawiać <strong>bez konferencyjnej ściemy</strong>.</span></li>
                     </ul>
                 </div>
-
                 <div class="bg-brand-dark text-white p-10 md:p-14 rounded-[3rem] shadow-xl border border-slate-800 relative overflow-hidden transition hover:shadow-2xl">
                     <div class="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
                     <h3 class="text-2xl md:text-3xl font-black mb-8 text-white">Zdecydowanie odpuść, jeśli:</h3>
                     <ul class="space-y-6 text-slate-300 font-medium text-lg">
-                        <li class="flex items-start gap-4">
-                            <span class="text-red-500 text-2xl font-black">❌</span>
-                            <span>Szukasz konferencji, na której wszyscy mówią to samo.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-red-500 text-2xl font-black">❌</span>
-                            <span>Oczekujesz, że na scenie wszyscy będą się ze sobą zgadzać.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-red-500 text-2xl font-black">❌</span>
-                            <span>Największą atrakcją na eventach jest dla Ciebie zdjęcie przy ściance.</span>
-                        </li>
-                        <li class="flex items-start gap-4">
-                            <span class="text-red-500 text-2xl font-black">❌</span>
-                            <span>Szukasz tylko teoretycznego "lukru" i podręcznikowej wiedzy o zarządzaniu.</span>
-                        </li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 text-2xl font-black">❌</span><span>Szukasz konferencji, na której wszyscy mówią to samo.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 text-2xl font-black">❌</span><span>Oczekujesz, że na scenie wszyscy będą się ze sobą zgadzać.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 text-2xl font-black">❌</span><span>Największą atrakcją na eventach jest dla Ciebie zdjęcie przy ściance.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 text-2xl font-black">❌</span><span>Szukasz tylko teoretycznego "lukru" i podręcznikowej wiedzy o zarządzaniu.</span></li>
                     </ul>
                 </div>
             </div>
@@ -705,232 +414,50 @@
         <div class="max-w-6xl mx-auto px-6 relative z-10 text-center">
             <h2 class="text-4xl md:text-5xl font-black mb-4 text-white reveal">Wybierz swój bilet</h2>
             <p class="text-xl text-slate-400 mb-8 max-w-2xl mx-auto reveal">Dostosuj udział do swoich potrzeb. Promocyjne ceny Early Bird obowiązują tylko do 12 kwietnia 2026 r.</p>
-
             <div id="countdown-container" class="flex flex-wrap justify-center gap-3 md:gap-6 mb-16 reveal">
-                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl">
-                    <span id="cd-days" class="text-3xl md:text-4xl font-black text-brand-green">00</span>
-                    <span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Dni</span>
-                </div>
-                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl">
-                    <span id="cd-hours" class="text-3xl md:text-4xl font-black text-brand-green">00</span>
-                    <span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Godzin</span>
-                </div>
-                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl">
-                    <span id="cd-minutes" class="text-3xl md:text-4xl font-black text-brand-green">00</span>
-                    <span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Minut</span>
-                </div>
-                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl">
-                    <span id="cd-seconds" class="text-3xl md:text-4xl font-black text-brand-green">00</span>
-                    <span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Sekund</span>
-                </div>
+                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl"><span id="cd-days" class="text-3xl md:text-4xl font-black text-brand-green">00</span><span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Dni</span></div>
+                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl"><span id="cd-hours" class="text-3xl md:text-4xl font-black text-brand-green">00</span><span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Godzin</span></div>
+                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl"><span id="cd-minutes" class="text-3xl md:text-4xl font-black text-brand-green">00</span><span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Minut</span></div>
+                <div class="bg-white/10 border border-white/20 backdrop-blur-sm rounded-2xl p-4 w-20 md:w-28 flex flex-col items-center shadow-xl"><span id="cd-seconds" class="text-3xl md:text-4xl font-black text-brand-green">00</span><span class="text-[10px] md:text-xs text-slate-400 uppercase tracking-widest mt-1 font-bold">Sekund</span></div>
             </div>
-            
-            <div id="countdown-expired" class="hidden text-brand-green font-bold text-2xl mb-16 reveal border-2 border-brand-green py-4 px-8 rounded-full inline-block">
-                Pula Early Bird została wyprzedana!
-            </div>
-
+            <div id="countdown-expired" class="hidden text-brand-green font-bold text-2xl mb-16 reveal border-2 border-brand-green py-4 px-8 rounded-full inline-block">Pula Early Bird została wyprzedana!</div>
             <div class="grid md:grid-cols-3 gap-8 mb-16 reveal">
-                
                 <a href="https://app.evenea.pl/event/hrbootcamplublin/?out=1&source=event_iframe&ticket=1429990" target="_blank" class="block bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-brand-green/50 transition-all duration-300 flex flex-col relative group cursor-pointer no-underline text-white">
                     <h3 class="text-2xl font-black mb-2">DAY ONE</h3>
                     <p class="text-brand-green font-bold mb-6">Tylko Konferencja (12 Maja)</p>
-                    <ul class="text-left space-y-4 mb-8 text-slate-300 text-sm flex-grow">
-                        <li>✔️ Scena Life Proven (prelekcje i debaty)</li>
-                        <li>✔️ Wstęp na Targi Pracy</li>
-                        <li>✔️ Przerwy kawowe i lunch</li>
-                        <li>✔️ Pakiet notatek wizualnych i zdjęcia</li>
-                        <li>✔️ Worek – niezbędnik bootcampowy</li>
-                    </ul>
-                    
-                    <div class="mt-auto pt-6 border-t border-white/10">
-                        <div class="flex flex-col items-center mb-5">
-                            <span class="text-slate-400 line-through text-sm mb-1">1094,70 zł</span>
-                            <div><span class="text-4xl font-black text-brand-green group-hover:scale-105 transition-transform inline-block">971,70</span> zł <span class="text-xs text-slate-400 uppercase">brutto</span></div>
-                        </div>
-                        <div class="w-full text-center bg-transparent border-2 border-brand-green text-brand-green font-bold py-3 rounded-full group-hover:bg-brand-green group-hover:text-brand-dark transition-all">
-                            Zamów w Evenea
-                        </div>
-                        <div class="text-brand-green font-bold text-xs text-center mt-4 animate-pulse">
-                            🔥 Oszczędzasz 123,00 zł!
-                        </div>
-                    </div>
+                    <ul class="text-left space-y-4 mb-8 text-slate-300 text-sm flex-grow"><li>✔️ Scena Life Proven (prelekcje i debaty)</li><li>✔️ Wstęp na Targi Pracy</li><li>✔️ Przerwy kawowe i lunch</li><li>✔️ Pakiet notatek wizualnych i zdjęcia</li><li>✔️ Worek – niezbędnik bootcampowy</li></ul>
+                    <div class="mt-auto pt-6 border-t border-white/10"><div class="flex flex-col items-center mb-5"><span class="text-slate-400 line-through text-sm mb-1">1094,70 zł</span><div><span class="text-4xl font-black text-brand-green">971,70</span> zł <span class="text-xs text-slate-400 uppercase">brutto</span></div></div><div class="w-full text-center bg-transparent border-2 border-brand-green text-brand-green font-bold py-3 rounded-full group-hover:bg-brand-green group-hover:text-brand-dark transition-all">Zamów w Evenea</div><div class="text-brand-green font-bold text-xs text-center mt-4 animate-pulse">🔥 Oszczędzasz 123,00 zł!</div></div>
                 </a>
-
                 <a href="https://app.evenea.pl/event/hrbootcamplublin/?out=1&source=event_iframe&ticket=1429989" target="_blank" class="block bg-white p-8 rounded-3xl transform md:-translate-y-4 shadow-2xl relative flex flex-col border-4 border-brand-green hover:shadow-[0_20px_50px_rgba(0,230,118,0.2)] transition-all duration-300 group cursor-pointer no-underline text-brand-dark">
                     <div class="absolute top-0 right-0 bg-brand-green text-brand-dark font-black text-xs py-2 px-4 rounded-bl-xl rounded-tr-2xl">PEŁNE DOŚWIADCZENIE</div>
                     <h3 class="text-2xl font-black mb-2 mt-2">FULL EXPERT</h3>
                     <p class="text-brand-green font-bold mb-6">Konferencja + Warsztaty (12-13 Maja)</p>
-                    <ul class="text-left space-y-4 mb-8 text-slate-600 text-sm font-medium flex-grow">
-                        <li>🔥 <strong>Wszystko to, co w pakiecie DAY ONE</strong></li>
-                        <li>🔥 <strong>Drugi dzień:</strong> Wybór 3 bloków warsztatowych</li>
-                        <li>🔥 Praca w małych grupach z prelegentami</li>
-                        <li>🔥 Pełen networking i kuluar (2 dni)</li>
-                        <li>🔥 Komplet wyżywienia (2 dni)</li>
-                    </ul>
-                    
-                    <div class="mt-auto pt-6 border-t border-slate-200">
-                        <div class="flex flex-col items-center mb-5">
-                            <span class="text-slate-400 line-through text-sm mb-1">1660,50 zł</span>
-                            <div><span class="text-4xl font-black text-brand-dark group-hover:scale-105 transition-transform inline-block">1414,50</span> zł <span class="text-xs text-slate-500 uppercase">brutto</span></div>
-                        </div>
-                        <div class="w-full text-center bg-brand-green text-brand-dark font-black py-4 rounded-full group-hover:scale-105 shadow-lg transition-all">
-                            Zamów w Evenea
-                        </div>
-                        <div class="text-brand-green font-bold text-sm text-center mt-4 animate-pulse">
-                            🔥 Oszczędzasz 246,00 zł!
-                        </div>
-                    </div>
+                    <ul class="text-left space-y-4 mb-8 text-slate-600 text-sm font-medium flex-grow"><li>🔥 <strong>Wszystko to, co w pakiecie DAY ONE</strong></li><li>🔥 <strong>Drugi dzień:</strong> Wybór 3 bloków warsztatowych</li><li>🔥 Praca w małych grupach z prelegentami</li><li>🔥 Pełen networking i kuluar (2 dni)</li><li>🔥 Komplet wyżywienia (2 dni)</li></ul>
+                    <div class="mt-auto pt-6 border-t border-slate-200"><div class="flex flex-col items-center mb-5"><span class="text-slate-400 line-through text-sm mb-1">1660,50 zł</span><div><span class="text-4xl font-black text-brand-dark">1414,50</span> zł <span class="text-xs text-slate-500 uppercase">brutto</span></div></div><div class="w-full text-center bg-brand-green text-brand-dark font-black py-4 rounded-full group-hover:scale-105 shadow-lg transition-all">Zamów w Evenea</div><div class="text-brand-green font-bold text-sm text-center mt-4 animate-pulse">🔥 Oszczędzasz 246,00 zł!</div></div>
                 </a>
-
                 <a href="https://app.evenea.pl/event/hrbootcamplublin/?out=1&source=event_iframe&ticket=1429991" target="_blank" class="block bg-white/5 border border-white/10 p-8 rounded-3xl hover:bg-white/10 hover:border-brand-green/50 transition-all duration-300 flex flex-col relative group cursor-pointer no-underline text-white">
                     <h3 class="text-2xl font-black mb-2">WORKSHOP</h3>
                     <p class="text-brand-green font-bold mb-6">Tylko Warsztaty (13 Maja)</p>
-                    <ul class="text-left space-y-4 mb-8 text-slate-300 text-sm flex-grow">
-                        <li>✔️ Wstęp na drugi dzień (Power of Mind)</li>
-                        <li>✔️ Wybór 3 bloków warsztatowych</li>
-                        <li>✔️ Małe grupy, intensywna praca</li>
-                        <li>✔️ Materiały od prowadzących i zdjęcia</li>
-                        <li>✔️ Przerwy kawowe i lunch</li>
-                    </ul>
-                    
-                    <div class="mt-auto pt-6 border-t border-white/10">
-                        <div class="flex flex-col items-center mb-5">
-                            <span class="text-slate-400 line-through text-sm mb-1">971,70 zł</span>
-                            <div><span class="text-4xl font-black text-brand-green group-hover:scale-105 transition-transform inline-block">848,70</span> zł <span class="text-xs text-slate-400 uppercase">brutto</span></div>
-                        </div>
-                        <div class="w-full text-center bg-transparent border-2 border-brand-green text-brand-green font-bold py-3 rounded-full group-hover:bg-brand-green group-hover:text-brand-dark transition-all">
-                            Zamów w Evenea
-                        </div>
-                        <div class="text-brand-green font-bold text-xs text-center mt-4 animate-pulse">
-                            🔥 Oszczędzasz 123,00 zł!
-                        </div>
-                    </div>
+                    <ul class="text-left space-y-4 mb-8 text-slate-300 text-sm flex-grow"><li>✔️ Wstęp na drugi dzień (Power of Mind)</li><li>✔️ Wybór 3 bloków warsztatowych</li><li>✔️ Małe grupy, intensywna praca</li><li>✔️ Materiały od prowadzących i zdjęcia</li><li>✔️ Przerwy kawowe i lunch</li></ul>
+                    <div class="mt-auto pt-6 border-t border-white/10"><div class="flex flex-col items-center mb-5"><span class="text-slate-400 line-through text-sm mb-1">971,70 zł</span><div><span class="text-4xl font-black text-brand-green">848,70</span> zł <span class="text-xs text-slate-400 uppercase">brutto</span></div></div><div class="w-full text-center bg-transparent border-2 border-brand-green text-brand-green font-bold py-3 rounded-full group-hover:bg-brand-green group-hover:text-brand-dark transition-all">Zamów w Evenea</div><div class="text-brand-green font-bold text-xs text-center mt-4 animate-pulse">🔥 Oszczędzasz 123,00 zł!</div></div>
                 </a>
-                
             </div>
-
-            <p class="text-xs text-slate-400 mt-8">
-                🔒 Płatności obsługiwane są przez operatora Evenea. Podane kwoty zawierają 23% VAT. Po zakupie automatycznie otrzymasz fakturę.
-            </p>
-
+            <p class="text-xs text-slate-400 mt-8">🔒 Płatności obsługiwane są przez operatora Evenea. Podane kwoty zawierają 23% VAT. Po zakupie automatycznie otrzymasz fakturę.</p>
         </div>
     </section>
 
     <section id="faq" class="py-24 bg-white border-t border-slate-200">
         <div class="max-w-4xl mx-auto px-6 reveal">
             <h2 class="text-4xl md:text-5xl font-black mb-12 text-center text-brand-dark">Najczęstsze pytania</h2>
-            
             <div class="space-y-4">
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Dla kogo jest ten Bootcamp?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Bootcamp jest dla Ciebie, jeśli pracujesz w HR i chcesz rozumieć zmiany rynku pracy, prowadzisz własną firmę, zarządzasz zespołem lub interesuje Cię przyszłość pracy i biznesu. Nie przychodź, jeśli szukasz konferencji z teoretycznymi banałami i zdjęciami na ściance. My stawiamy na konkrety.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Czy muszę brać udział w obu dniach konferencji?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Nie ma takiej konieczności! W panelu biletowym przygotowaliśmy 3 rodzaje wejściówek. Możesz kupić bilet tylko na Dzień I (Konferencja z prelekcjami), tylko na Dzień II (Warsztaty) lub pakiet FULL EXPERT łączący oba te doświadczenia (najbardziej polecany).
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Jak działa wybór warsztatów drugiego dnia?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Dzień 2 (Power of Mind) to wyłącznie zajęcia warsztatowe. Jeśli kupisz odpowiedni bilet, otrzymasz od nas listę warsztatów tematycznych. Wybierasz z nich dokładnie 3 bloki (każdy trwa ok. 2 godziny), które idealnie odpowiadają na Twoje aktualne potrzeby biznesowe.
-                        </div>
-                    </div>
-                </div>
-
-               
-            
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Czy zapewniacie wyżywienie (catering)?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Osoby kupujące bilet biznesowy będą miały pełny dostęp do przerw kawowych oraz lunchu (przy rejestracji zaznaczasz opcję wege/vegan). Uczestników darmowej strefy dla studentów nie karmimy... chyba że uda nam się załatwić coś od sponsorów 😉.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Czy otrzymam fakturę VAT za bilet biznesowy?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Oczywiście. Faktura zostanie wygenerowana automatycznie przez system biletowy zaraz po opłaceniu zamówienia i wysłana na Twój adres e-mail. Pamiętaj, aby zaznaczyć opcję "Firma" i podać NIP w formularzu.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Czy prelekcje z pierwszego dnia będą nagrywane?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Tak! Każdy uczestnik (niezależnie od rodzaju biletu) otrzyma dostęp do platformy VOD z nagraniami wystąpień z Dnia I. Dostęp zostanie wysłany drogą mailową w ciągu 7 dni od zakończenia wydarzenia.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Gdzie dokładnie odbywa się wydarzenie?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Spotykamy się w nowoczesnej przestrzeni Centrum Spotkania Kultur przy pl. Teatralnym 1. Lokalizacja jest świetnie skomunikowana z dworcem PKP oraz posiada dostęp do parkingu podziemnego dla uczestników.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Czy mogę zmienić nazwisko na bilecie?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Tak, edycja danych uczestnika jest możliwa samodzielnie poprzez system biletowy do 5 dni przed konferencją. Po tym terminie prosimy o kontakt bezpośredni z biurem organizatora.
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors">
-                    <button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50">
-                        <span>Chcę zostać partnerem. Jak to zrobić?</span>
-                        <span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span>
-                    </button>
-                    <div class="faq-content bg-white">
-                        <div class="px-8 pb-6 text-slate-600 pt-2">
-                            Świetna decyzja! Bootcamp to zasięg 1.000.000 osób w sieci i 250 fizycznych uczestników z branży B2B. Skontaktuj się z Agnieszką Karłowicz pod adresem <a href="mailto:biuro@bootcamp.foundation" class="text-brand-green font-bold hover:underline">biuro@bootcamp.foundation</a>, aby otrzymać pełną ofertę sponsorską.
-                        </div>
-                    </div>
-                </div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Dla kogo jest ten Bootcamp?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Bootcamp jest dla Ciebie, jeśli pracujesz w HR i chcesz rozumieć zmiany rynku pracy, prowadzisz własną firmę, zarządzasz zespołem lub interesuje Cię przyszłość pracy i biznesu.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Czy muszę brać udział w obu dniach konferencji?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Nie ma takiej konieczności! Przygotowaliśmy 3 rodzaje wejściówek. Możesz kupić bilet tylko na Dzień I, tylko na Dzień II lub pakiet FULL EXPERT.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Jak działa wybór warsztatów drugiego dnia?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Dzień 2 to wyłącznie zajęcia warsztatowe. Wybierasz dokładnie 3 bloki (każdy trwa ok. 2 godziny).</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Czy zapewniacie wyżywienie (catering)?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Osoby kupujące bilet biznesowy będą miały pełny dostęp do przerw kawowych oraz lunchu.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Czy otrzymam fakturę VAT za bilet biznesowy?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Oczywiście. Faktura zostanie wygenerowana automatycznie i wysłana na Twój adres e-mail.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Czy prelekcje z pierwszego dnia będą nagrywane?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Tak! Każdy uczestnik otrzyma dostęp do platformy VOD z nagraniami w ciągu 7 dni od zakończenia wydarzenia.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Gdzie dokładnie odbywa się wydarzenie?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Centrum Spotkania Kultur przy pl. Teatralnym 1 w Lublinie.</div></div></div>
+                <div class="border border-slate-200 rounded-2xl overflow-hidden hover:border-brand-green transition-colors"><button class="faq-btn w-full text-left px-8 py-6 font-bold text-lg flex justify-between items-center focus:outline-none bg-slate-50"><span>Chcę zostać partnerem. Jak to zrobić?</span><span class="icon text-brand-green text-2xl font-black transform transition-transform">+</span></button><div class="faq-content bg-white"><div class="px-8 pb-6 text-slate-600 pt-2">Skontaktuj się z Agnieszką Karłowicz: <a href="mailto:biuro@bootcamp.foundation" class="text-brand-green font-bold hover:underline">biuro@bootcamp.foundation</a></div></div></div>
             </div>
         </div>
     </section>
@@ -938,41 +465,30 @@
     <section class="py-16 bg-brand-green text-brand-dark">
         <div class="max-w-4xl mx-auto px-6 text-center reveal">
             <h2 class="text-3xl font-black mb-4">Dlaczego akurat Lublin?</h2>
-            <p class="text-lg font-medium opacity-90">
-                Bo Lublin i Lubelszczyzna to dziś jedno z najciekawszych miejsc w Polsce do życia, pracy i prowadzenia biznesu. Bootcamp to idealna okazja, żeby poczuć potencjał tego regionu i spotkać świetnych ludzi z całej Polski. Widzimy się na miejscu!
-            </p>
+            <p class="text-lg font-medium opacity-90">Bo Lublin i Lubelszczyzna to dziś jedno z najciekawszych miejsc w Polsce do życia, pracy i prowadzenia biznesu.</p>
         </div>
     </section>
 
     <footer class="bg-slate-900 text-slate-400 py-16 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            
             <div>
-                <a href="#" class="block h-12 md:h-24 mb-6 flex-shrink-0">
-                    <img src="bootcamp-lublin-logo.svg" alt="Bootcamp Modern Leadership Logo" class="h-full w-auto brightness-0 invert" onerror="this.outerHTML='<div class=\'font-black text-3xl tracking-tighter text-white\'>BOOTCAMP<span class=\'text-brand-green\'>.</span></div>'">
-                </a>
-                
+                <a href="#" class="block h-12 md:h-24 mb-6 flex-shrink-0"><img src="bootcamp-lublin-logo.svg" alt="Bootcamp Modern Leadership Logo" class="h-full w-auto brightness-0 invert"></a>
                 <p class="mb-6 max-w-sm">Dla tych, którzy mają pytania, mają doświadczenie i chcą rozmawiać bez konferencyjnej ściemy.</p>
-                
                 <div class="flex space-x-4">
                     <a href="https://linkedin.com/showcase/bootcamp-hr-leadership/" target="_blank" class="w-10 h-10 rounded-full bg-brand-green text-brand-dark flex items-center justify-center hover:scale-110 transition-transform"><span class="font-bold">in</span></a>
                     <a href="https://www.facebook.com/bootcamp.hr/" target="_blank" class="w-10 h-10 rounded-full bg-brand-green text-brand-dark flex items-center justify-center hover:scale-110 transition-transform"><span class="font-bold">fb</span></a>
                 </div>
             </div>
-
             <div>
                 <h4 class="text-white font-bold text-lg mb-4">Dane Fundacji</h4>
                 <div class="text-sm space-y-1">
                     <p class="font-bold text-slate-300 text-base">Fundacja Bootcamp</p>
-                    <p>ul. Kwarcowa 81</p>
-                    <p class="mb-4">20-583 Lublin</p>
-                    
+                    <p>ul. Kwarcowa 81</p><p class="mb-4">20-583 Lublin</p>
                     <p class="pt-2"><span class="text-slate-500 w-16 inline-block">NIP:</span> <span class="text-slate-300">7123506232</span></p>
                     <p><span class="text-slate-500 w-16 inline-block">KRS:</span> <span class="text-slate-300">0001215201</span></p>
                     <p><span class="text-slate-500 w-16 inline-block">REGON:</span> <span class="text-slate-300">543633265</span></p>
                 </div>
             </div>
-            
             <div class="flex flex-col sm:flex-row items-start lg:justify-end gap-6">
                 <div class="text-left sm:text-right order-last sm:order-first">
                     <h4 class="text-white font-bold text-lg mb-4">Kontakt / Partnerstwa</h4>
@@ -981,43 +497,63 @@
                     <p class="text-brand-green font-bold text-lg mb-1">+48 601 151 324</p>
                     <a href="mailto:biuro@bootcamp.foundation" class="hover:text-white transition">biuro@bootcamp.foundation</a>
                 </div>
-                <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-brand-green flex-shrink-0 shadow-lg order-first sm:order-last">
-                    <img src="agnieszka-karlowicz.jpg" alt="Agnieszka Karłowicz" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Agnieszka+Kar%C5%82owicz&background=0f172a&color=00e676&size=200'">
-                </div>
+                <div class="w-24 h-24 rounded-full overflow-hidden border-2 border-brand-green flex-shrink-0 shadow-lg order-first sm:order-last"><img src="agnieszka-karlowicz.jpg" alt="Agnieszka Karłowicz" class="w-full h-full object-cover"></div>
             </div>
-            
         </div>
-        
         <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center">
             <p>&copy; 2026 Fundacja Bootcamp. Wszelkie prawa zastrzeżone.</p>
-            <div class="space-x-4 mt-4 md:mt-0">
-                <a href="#" class="hover:text-white transition">Regulamin</a>
-                <a href="#" class="hover:text-white transition">Polityka Prywatności</a>
-            </div>
+            <div class="space-x-4 mt-4 md:mt-0"><a href="#" class="hover:text-white transition">Regulamin</a><a href="#" class="hover:text-white transition">Polityka Prywatności</a></div>
         </div>
     </footer>
 
     <script>
+        /* =============================================
+           ŁADOWANIE DANYCH Z CMS (content/config.json)
+           ============================================= */
+        async function loadCMSData() {
+            try {
+                const response = await fetch('content/config.json');
+                if (!response.ok) return; // jeśli plik nie istnieje, zostają domyślne wartości
+                const data = await response.json();
+
+                // Podmiana daty
+                if (data.data) {
+                    const el = document.getElementById('cms-data');
+                    if (el) el.textContent = data.data;
+                }
+
+                // Podmiana miejsca
+                if (data.miejsce) {
+                    const el = document.getElementById('cms-miejsce');
+                    if (el) el.innerHTML = data.miejsce;
+                }
+
+                // Podmiana tytułu strony
+                if (data.tytul) {
+                    document.title = data.tytul + ' | Life Proven';
+                }
+
+            } catch (e) {
+                // Cicha obsługa błędu — strona działa z domyślnymi wartościami
+                console.log('CMS data not loaded, using defaults.');
+            }
+        }
+        loadCMSData();
+
+        /* =============================================
+           RESZTA SKRYPTÓW (bez zmian)
+           ============================================= */
         document.addEventListener('DOMContentLoaded', () => {
-            
-            /* Navbar cień przy przewijaniu */
+
             const navbar = document.getElementById('navbar');
             window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    navbar.classList.add('shadow-md');
-                } else {
-                    navbar.classList.remove('shadow-md');
-                }
+                navbar.classList.toggle('shadow-md', window.scrollY > 50);
             });
 
-            /* Animacje wjeżdżania elementów (Reveal) */
             const reveals = document.querySelectorAll('.reveal');
             const revealOnScroll = () => {
-                const windowHeight = window.innerHeight;
-                const elementVisible = 100;
                 reveals.forEach(reveal => {
-                    const elementTop = reveal.getBoundingClientRect().top;
-                    if (elementTop < windowHeight - elementVisible) {
+                    if (reveal.getBoundingClientRect().top < window.innerHeight - 100) {
                         reveal.classList.add('active');
                     }
                 });
@@ -1025,31 +561,20 @@
             window.addEventListener('scroll', revealOnScroll);
             revealOnScroll();
 
-            /* Akordeon FAQ */
             const faqButtons = document.querySelectorAll('.faq-btn');
             faqButtons.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const content = btn.nextElementSibling;
                     const icon = btn.querySelector('.icon');
                     const isOpen = content.classList.contains('open');
-
                     document.querySelectorAll('.faq-content').forEach(c => c.classList.remove('open'));
-                    document.querySelectorAll('.faq-btn .icon').forEach(i => {
-                        i.style.transform = 'rotate(0deg)';
-                        i.textContent = '+';
-                    });
-
-                    if (!isOpen) {
-                        content.classList.add('open');
-                        icon.style.transform = 'rotate(45deg)';
-                        icon.textContent = '+'; 
-                    }
+                    document.querySelectorAll('.faq-btn .icon').forEach(i => { i.style.transform = 'rotate(0deg)'; });
+                    if (!isOpen) { content.classList.add('open'); icon.style.transform = 'rotate(45deg)'; }
                 });
             });
 
-            /* Galeria zdjęć (Slider) */
             const track = document.getElementById('sliderTrack');
-            const slides = Array.from(track.children);
+            const slides = track ? Array.from(track.children) : [];
             const nextBtn = document.getElementById('nextBtn');
             const prevBtn = document.getElementById('prevBtn');
             const dotsContainer = document.getElementById('sliderDots');
@@ -1058,23 +583,16 @@
             if (track && slides.length > 0) {
                 slides.forEach((_, index) => {
                     const dot = document.createElement('button');
-                    dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-slate-600', 'transition-colors');
-                    if(index === 0) dot.classList.add('bg-brand-green');
+                    dot.classList.add('w-3', 'h-3', 'rounded-full', index === 0 ? 'bg-brand-green' : 'bg-slate-600', 'transition-colors');
                     dot.addEventListener('click', () => goToSlide(index));
                     dotsContainer.appendChild(dot);
                 });
 
                 const updateDots = () => {
-                    const dots = Array.from(dotsContainer.children);
-                    dots.forEach(dot => {
-                        dot.classList.remove('bg-brand-green');
-                        dot.classList.add('bg-slate-600');
+                    Array.from(dotsContainer.children).forEach((dot, i) => {
+                        dot.className = `w-3 h-3 rounded-full transition-colors ${i === currentIndex ? 'bg-brand-green' : 'bg-slate-600'}`;
                     });
-                    if(dots[currentIndex]) {
-                        dots[currentIndex].classList.remove('bg-slate-600');
-                        dots[currentIndex].classList.add('bg-brand-green');
-                    }
-                }
+                };
 
                 const goToSlide = (index) => {
                     currentIndex = index;
@@ -1082,64 +600,26 @@
                     updateDots();
                 };
 
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex + 1) % slides.length;
-                        goToSlide(currentIndex);
-                    });
-                }
-
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', () => {
-                        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
-                        goToSlide(currentIndex);
-                    });
-                }
-                
-                setInterval(() => {
-                    currentIndex = (currentIndex + 1) % slides.length;
-                    goToSlide(currentIndex);
-                }, 5000);
+                nextBtn?.addEventListener('click', () => goToSlide((currentIndex + 1) % slides.length));
+                prevBtn?.addEventListener('click', () => goToSlide((currentIndex - 1 + slides.length) % slides.length));
+                setInterval(() => goToSlide((currentIndex + 1) % slides.length), 5000);
             }
 
-            /* Zegar odliczający do Early Bird */
             const countDownDate = new Date("April 12, 2026 23:59:59").getTime();
-
-            const timerInterval = setInterval(function() {
-                const now = new Date().getTime();
-                const distance = countDownDate - now;
-
-                // Jeśli czas minął
+            const timerInterval = setInterval(() => {
+                const distance = countDownDate - new Date().getTime();
                 if (distance < 0) {
                     clearInterval(timerInterval);
-                    const container = document.getElementById("countdown-container");
-                    const expiredMsg = document.getElementById("countdown-expired");
-                    if(container && expiredMsg) {
-                        container.style.display = "none";
-                        expiredMsg.classList.remove("hidden");
-                    }
+                    document.getElementById("countdown-container")?.style.setProperty('display', 'none');
+                    document.getElementById("countdown-expired")?.classList.remove("hidden");
                     return;
                 }
-
-                // Obliczenia czasu
-                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                // Wyświetlanie
-                const elDays = document.getElementById("cd-days");
-                const elHours = document.getElementById("cd-hours");
-                const elMinutes = document.getElementById("cd-minutes");
-                const elSeconds = document.getElementById("cd-seconds");
-
-                if(elDays) elDays.innerHTML = days < 10 ? '0' + days : days;
-                if(elHours) elHours.innerHTML = hours < 10 ? '0' + hours : hours;
-                if(elMinutes) elMinutes.innerHTML = minutes < 10 ? '0' + minutes : minutes;
-                if(elSeconds) elSeconds.innerHTML = seconds < 10 ? '0' + seconds : seconds;
-
+                const pad = n => n < 10 ? '0' + n : n;
+                document.getElementById("cd-days").innerHTML = pad(Math.floor(distance / 86400000));
+                document.getElementById("cd-hours").innerHTML = pad(Math.floor((distance % 86400000) / 3600000));
+                document.getElementById("cd-minutes").innerHTML = pad(Math.floor((distance % 3600000) / 60000));
+                document.getElementById("cd-seconds").innerHTML = pad(Math.floor((distance % 60000) / 1000));
             }, 1000);
-
         });
     </script>
 </body>
